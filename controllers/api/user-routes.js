@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User, Post } = require('../../models');
 
 // GET /api/users
 router.get('/', (req, res) => {
@@ -36,6 +36,29 @@ router.post('/', (req, res) => {
     })
     .then(userData => res.json(userData))
     .catch(err => res.status(500).json(err));
+});
+
+// USER LOGIN ROUTE
+router.post('/login', (req, res) => {
+    User.findOne({
+        where: {
+            email: req.body.email
+        }
+    })
+    .then(userData => {
+        if (!userData) {
+            res.status(400).json({ message: 'No user found with that email address' });
+            return;
+        }
+
+        const isPassword = userData.validatePassword(req.body.password);
+        if (!isPassword) {
+            res.status(400).json({ message: 'Password is incorrect' });
+            return;
+        }
+
+        res.json({ user: userData, message: 'You are now logged in!' });
+    });
 });
 
 // PUT update user by id
