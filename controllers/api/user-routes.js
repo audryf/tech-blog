@@ -5,10 +5,7 @@ const { User } = require('../../models');
 router.get('/', (req, res) => {
     User.findAll({})
     .then(userData => res.json(userData))
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+    .catch(err => res.status(500).json(err));
 });
 
 // GET single user
@@ -26,7 +23,6 @@ router.get('/:id', (req, res) => {
         res.json(userData);
     })
     .catch(err => {
-        console.log(err);
         res.status(500).json(err);
     });
 });
@@ -39,10 +35,7 @@ router.post('/', (req, res) => {
         password: req.body.password
     })
     .then(userData => res.json(userData))
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+    .catch(err => res.status(500).json(err));
 });
 
 // PUT update user by id
@@ -59,10 +52,7 @@ router.put('/:id', (req, res) => {
         }
         res.json(userData);
     })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+    .catch(err => res.status(500).json(err));
 });
 
 // DELETE single user
@@ -79,10 +69,7 @@ router.delete('/:id', (req, res) => {
         }
         res.json(userData);
     })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+    .catch(err => res.status(500).json(err));
 });
 
 module.exports = router;
