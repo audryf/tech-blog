@@ -3,7 +3,7 @@ const { User } = require('../../models');
 
 // GET /api/users
 router.get('/', (req, res) => {
-    User.findAll()
+    User.findAll({})
     .then(userData => res.json(userData))
     .catch(err => {
         console.log(err);
@@ -84,3 +84,5 @@ router.delete('/:id', (req, res) => {
         res.status(500).json(err);
     });
 });
+
+module.exports = router;
