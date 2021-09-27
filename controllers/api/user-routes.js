@@ -34,7 +34,15 @@ router.post('/', (req, res) => {
         email: req.body.email,
         password: req.body.password
     })
-    .then(userData => res.json(userData))
+    .then(userData => {
+        req.session.save(() => {
+            req.session.user_id = userData.id;
+            req.session.username = userData.username;
+            req.session.loggedIn = true;
+
+            res.json(userData);
+        });
+    })
     .catch(err => res.status(500).json(err));
 });
 
@@ -57,7 +65,13 @@ router.post('/login', (req, res) => {
             return;
         }
 
-        res.json({ user: userData, message: 'You are now logged in!' });
+        req.session.save(() => {
+            req.session.user_id = userData.id;
+            req.session.username = userData.username;
+            req.session.loggedIn = true;
+    
+            res.json({ user: userData, message: 'You are now logged in!' });
+        });
     });
 });
 
